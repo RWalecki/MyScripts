@@ -1,7 +1,12 @@
 import pandas as pd
 import numpy as np
 
-def numpy_to_latex(dat, xlabel = None, ylabel = None, precision = 2, path = '/tmp/test.tex' ):
+def numpy_to_latex(dat,
+                   precision = 2,
+                   path = '/tmp/test.tex',
+                   verbose = 0,
+                   bold = 'max'
+                   ):
     '''
     how to use in latex:
 
@@ -13,15 +18,30 @@ def numpy_to_latex(dat, xlabel = None, ylabel = None, precision = 2, path = '/tm
 
     '''
 
-    # define precision
-    max_idx = dat.argmax(0)
-    max_idy = np.arange(dat.shape[1])
+    if bold=='max':
+        max_idx = dat.values.argmax(0)
+        max_idy = np.arange(dat.shape[1])
+    if bold=='min':
+        max_idx = dat.values.argmin(0)
+        max_idy = np.arange(dat.shape[1])
+    if bold==None:
+        max_idx = []
+        max_idy = []
+
+    #highlight same values
+
     tmp = np.int32(dat*10**precision)/float(10**precision)
     tmp = tmp.astype(str)
+
     for x,y in zip(max_idx,max_idy):
-        tmp[x,y]='\textbf{'+tmp[x,y]+'}'
 
+        #also highlight same values in this row
+        for x_ in np.argwhere(tmp[:,y]==tmp[x,y])[:,0]:
+            tmp[x_,y]='\textbf{'+tmp[x_,y]+'}'
 
+    index = dat.axes[0]
+    columns = dat.axes[1]
 
-    tab = pd.DataFrame(tmp,index=xlabel,columns=ylabel)
+    tab = pd.DataFrame(tmp,index=index ,columns=columns)
+    if verbose>0:print tab
     tab.to_latex(buf=path,escape=False)
