@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 
 def numpy_to_latex(dat,
+                   columns = [],
+                   index = [],
                    precision = 2,
                    path = '/tmp/test.tex',
                    verbose = 0,
@@ -17,6 +19,10 @@ def numpy_to_latex(dat,
         \end{document}
 
     '''
+    if len(columns)==0:columns=np.arange(dat.shape[1])
+    if len(index)==0:index=np.arange(dat.shape[0])
+    dat = pd.DataFrame(dat,index=index ,columns=columns)
+    if verbose>0:print dat
 
     if bold=='max':
         max_idx = dat.values.argmax(0)
