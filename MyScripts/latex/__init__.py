@@ -1,0 +1,1 @@
+from numpy_to_latex import numpy_to_latex
