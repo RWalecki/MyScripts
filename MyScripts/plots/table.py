@@ -24,8 +24,13 @@ def table(
                vmax=vmax,
                )
 
+    ax.set_xticks(np.arange(0, dat.shape[0], 1))
+    ax.set_yticks(np.arange(0, dat.shape[1], 1))
+
 
     for (x,y),v in np.ndenumerate(dat):
+
+        if v==0:continue
 
         val = np.int32(v*100)/100.
 

@@ -1,10 +1,10 @@
 import numpy as np
-import MyScripts.plots.table as table
-import matplotlib.pyplot as plt
 import random
 import string
-
+import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
+
+import MyScripts.plots.table as table
 
 pwd = '/tmp/'+''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(16))+'.pdf'
 
@@ -28,7 +28,6 @@ class testcase:
         ax.set_xlabel('blabal_x')
         ax.set_ylabel('blabal_y')
         plt.savefig(pwd,bbox_inches='tight')
-
 
     def test_grid(self):
 
@@ -60,7 +59,6 @@ class testcase:
         ax.set_ylabel('blabal_y')
 
         plt.savefig('/tmp/tmp.pdf',bbox_inches='tight')
-
 
 
 if __name__ == "__main__":
