@@ -19,7 +19,7 @@ def table(
 
     im = ax.imshow(dat.T,
                interpolation='nearest',
-               cmap=cm.seismic,
+               cmap=cm.Reds,
                vmin=vmin,
                vmax=vmax,
                )
@@ -35,9 +35,9 @@ def table(
         val = np.int32(v*100)/100.
 
         if v<=(vmax-vmin)*0.5:
-            color = 'white'
-        else:
             color = 'black'
+        else:
+            color = 'white'
 
         ax.text(x, y, val, va='center', ha='center',color=color,fontsize=fontsize)
 

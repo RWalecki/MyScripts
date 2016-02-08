@@ -7,7 +7,7 @@ def numpy_to_latex(dat,
                    precision = 2,
                    path = '/tmp/test.tex',
                    verbose = 0,
-                   bold = 'max'
+                   bold = [None,None]
                    ):
     '''
     how to use in latex:
@@ -21,32 +21,43 @@ def numpy_to_latex(dat,
     '''
     if len(columns)==0:columns=np.arange(dat.shape[1])
     if len(index)==0:index=np.arange(dat.shape[0])
-    dat = pd.DataFrame(dat,index=index ,columns=columns)
-    if verbose>0:print dat
 
-    if bold=='max':
-        max_idx = dat.values.argmax(0)
+    if bold[1]=='h':dat=dat.T
+
+    if bold[0]=='max':
+        max_idx = dat.argmax(0)
         max_idy = np.arange(dat.shape[1])
-    if bold=='min':
-        max_idx = dat.values.argmin(0)
+    if bold[0]=='min':
+        max_idx = dat.argmin(0)
         max_idy = np.arange(dat.shape[1])
-    if bold==None:
+    if bold[0]==None:
         max_idx = []
         max_idy = []
 
+    if bold[1]=='h':
+        tmp=max_idx
+        max_idx=max_idy
+        max_idy=tmp
+        dat=dat.T
+
     #highlight same values
+
+
 
     tmp = np.int32(dat*10**precision)/float(10**precision)
     tmp = tmp.astype(str)
 
+
+
     for x,y in zip(max_idx,max_idy):
 
-        #also highlight same values in this row
-        for x_ in np.argwhere(tmp[:,y]==tmp[x,y])[:,0]:
-            tmp[x_,y]='\textbf{'+tmp[x_,y]+'}'
-
-    index = dat.axes[0]
-    columns = dat.axes[1]
+        ##also highlight same values in this row
+        if bold[1]=='h':
+            for y_ in np.argwhere(tmp[x,:]==tmp[x,y])[:,0]:
+                tmp[x,y_]='\textbf{'+tmp[x,y_]+'}'
+        else:
+            for x_ in np.argwhere(tmp[:,y]==tmp[x,y])[:,0]:
+                tmp[x_,y]='\textbf{'+tmp[x_,y]+'}'
 
     tab = pd.DataFrame(tmp,index=index ,columns=columns)
     if verbose>0:print tab
