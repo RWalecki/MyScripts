@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib
 import matplotlib.cm as cm
 
 def table(
@@ -8,6 +9,8 @@ def table(
     c_range=None,
     fontsize=10,
     colorbar=True,
+    highlight = [],
+    cmap = cm.Reds,
 ):
 
     if c_range==None:
@@ -19,14 +22,28 @@ def table(
 
     im = ax.imshow(dat.T,
                interpolation='nearest',
-               cmap=cm.Reds,
+               cmap=cmap,
                vmin=vmin,
                vmax=vmax,
                )
 
+
+    for i,j in highlight:
+        rect = matplotlib.patches.Rectangle(
+                (i-0.5,j-0.5), 1, 1, 
+                color='red',
+                fill=None, 
+                #alpha=1,
+                linewidth=2
+                )
+        ax.add_patch(rect)
+
     ax.set_xticks(np.arange(0, dat.shape[0], 1))
     ax.set_yticks(np.arange(0, dat.shape[1], 1))
 
+
+    if fontsize==0:
+        return im
 
     for (x,y),v in np.ndenumerate(dat):
 
