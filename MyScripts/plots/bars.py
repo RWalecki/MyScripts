@@ -4,6 +4,8 @@ import matplotlib
 import matplotlib.cm as cm
 from matplotlib.dates import date2num
 import datetime
+import matplotlib.cm as cm
+cmap = cm.Reds
 
 def bars(
     ax,
@@ -21,9 +23,9 @@ def bars(
     for i_au in range(dat.shape[1]):
         for i_dset in range(dat.shape[0]):
             if np.mod(i_dset,2):
-                rects1 = ax.bar(ind+i_au*width+width/2, dat[i_dset,i_au,:], width/2, color='r',alpha=1)
+                rects1 = ax.bar(width+ind+i_au*width+width/2, dat[i_dset,i_au,:], width/2,color='red', edgecolor='black', hatch="/")
             else:
-                rects1 = ax.bar(ind+i_au*width, dat[i_dset,i_au,:], width/2, color='b',alpha=1)
+                rects1 = ax.bar(width+ind+i_au*width, dat[i_dset,i_au,:], width/2, color='blue', edgecolor='black', hatch="/")
 
     if xticks==None:
         xticks=np.arange(dat.shape[2])

@@ -14,8 +14,8 @@ def table(
 ):
 
     if c_range==None:
-        vmax = np.max(np.abs(dat))
-        vmin = -vmax
+        vmax = np.max(dat)
+        vmin = np.min(dat)
     else:
         vmin, vmax = c_range
 
@@ -33,7 +33,6 @@ def table(
                 (i-0.5,j-0.5), 1, 1, 
                 color='red',
                 fill=None, 
-                #alpha=1,
                 linewidth=2
                 )
         ax.add_patch(rect)
@@ -51,7 +50,7 @@ def table(
 
         val = np.int32(v*100)/100.
 
-        if v<=(vmax-vmin)*0.5:
+        if v<=(vmax+vmin)*0.5:
             color = 'black'
         else:
             color = 'white'
