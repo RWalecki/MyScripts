@@ -10,7 +10,7 @@ def table(
     fontsize=10,
     colorbar=True,
     highlight = [],
-    cmap = cm.Reds,
+    cmap = cm.Greys,
 ):
 
     if c_range==None:
@@ -31,10 +31,10 @@ def table(
     for i,j in highlight:
         rect = matplotlib.patches.Rectangle(
                 (i-0.5,j-0.5), 1, 1, 
-                color='red',
+                color='Orange',
                 fill=None, 
-                #alpha=1,
-                linewidth=2
+                #alpha=0.8,
+                linewidth=8
                 )
         ax.add_patch(rect)
 
@@ -47,11 +47,11 @@ def table(
 
     for (x,y),v in np.ndenumerate(dat):
 
-        if v==0:continue
+        #if v==0:continue
 
         val = np.int32(v*100)/100.
 
-        if v<=(vmax-vmin)*0.5:
+        if v<=(vmin+vmax)*0.5:
             color = 'black'
         else:
             color = 'white'

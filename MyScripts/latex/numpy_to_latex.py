@@ -7,6 +7,7 @@ def numpy_to_latex(dat,
                    precision = 2,
                    path = '/tmp/test.tex',
                    verbose = 0,
+                   add_average = None,
                    bold = [None,None]
                    ):
     '''
@@ -20,7 +21,21 @@ def numpy_to_latex(dat,
 
     '''
     if len(columns)==0:columns=np.arange(dat.shape[1])
+    columns = [str(c) for c in columns]
     if len(index)==0:index=np.arange(dat.shape[0])
+    index = [str(c) for c in index]
+
+    if add_average!=None:
+        if add_average=='v':
+            av = np.mean(dat,1)[None,:]
+            columns.append('avr.')
+            dat = np.vstack((dat.T,av)).T
+
+        if add_average=='h':
+            av = np.mean(dat,0)[:,None]
+            dat = np.vstack((dat,av.T))
+            index.append('avr.')
+
 
     if bold[1]=='h':dat=dat.T
 
