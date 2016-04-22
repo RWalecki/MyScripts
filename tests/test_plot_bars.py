@@ -14,7 +14,6 @@ class testcase:
 
         fig, ax = plt.subplots()
         dat = np.random.rand(2,5,8)
-        print dat
         labels = ['a',
                 'b',
                 'c',
@@ -24,9 +23,16 @@ class testcase:
                 'g',
                 'h',
                 ]
-        im = bars(ax,dat,width=0.15,xticks=labels)
+        im = bars.side_by_side(ax,dat,width=0.15,xticks=labels)
         #plt.colorbar(im)
         plt.savefig('/tmp/tmp.pdf',bbox_inches='tight')
+
+    def test_stacked(self):
+        fig, ax = plt.subplots()
+        dat = np.random.rand(7,2)*100
+        im = bars.stacked(ax,dat,xticks=[1,2])
+        plt.savefig('/tmp/tmp.pdf',bbox_inches='tight')
+        # pass
 
 if __name__ == "__main__":
     import nose
