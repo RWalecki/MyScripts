@@ -8,11 +8,11 @@ pwd = '/tmp/'+''.join(random.choice(string.ascii_lowercase + string.digits) for 
 
 class testcase:
 
-    def _test_basic(self):
-        dat = np.random.rand(3,6)
+    def test_basic(self):
+        dat = np.random.rand(3,4)
         numpy_to_latex(dat,path = pwd)
 
-        columns = [1, 2, 4, 6, 8, 12]
+        columns = [1, 2, 4, 6]
         numpy_to_latex(dat,columns=columns,path = pwd)
 
         index = ['m1','m2','m3']
@@ -22,7 +22,10 @@ class testcase:
             dat,
             index=index,
             columns=columns,
+            precision=2,
             verbose=1,
+            bold=['max','h'],
+            add_average='h',
             path = '/tmp/np.tex'
         )
 
@@ -103,7 +106,40 @@ class testcase:
             dat,
             path = pwd,
             bold=['max','h'],
-            verbose=1
+            verbose=0
+        )
+
+    def test_average(self):
+        dat = np.random.rand(3,4)
+        numpy_to_latex(dat,path = pwd)
+
+        columns = [1, 2, 4, 6]
+        numpy_to_latex(dat,columns=columns,path = pwd)
+
+        index = ['m1','m2','m3']
+        numpy_to_latex(dat,index=index,path = pwd)
+
+        numpy_to_latex(
+            dat,
+            index=index,
+            columns=columns,
+            precision=2,
+            verbose=1,
+            bold=['max','h'],
+            add_average='h',
+            path = '/tmp/np.tex'
+        )
+
+
+        numpy_to_latex(
+            dat,
+            index=index,
+            columns=columns,
+            precision=2,
+            verbose=1,
+            bold=['max','v'],
+            add_average='v',
+            path = '/tmp/np.tex'
         )
 
 if __name__ == "__main__":

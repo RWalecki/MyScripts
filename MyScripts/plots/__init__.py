@@ -1,2 +1,3 @@
 from table import table
-from bars import bars
+from bars import side_by_side
+from bars import stacked

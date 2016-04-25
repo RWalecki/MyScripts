@@ -3,11 +3,12 @@ import matplotlib.pyplot as plt
 import matplotlib
 import matplotlib.cm as cm
 from matplotlib.dates import date2num
+import matplotlib.cm as cm
 import datetime
 import matplotlib.cm as cm
 cmap = cm.Reds
 
-def bars(
+def side_by_side(
     ax,
     dat,
     xticks=None,
@@ -35,4 +36,35 @@ def bars(
     
 
 
+    return ax
+
+def stacked(
+        ax,
+        dat,
+        xticks=None,
+        cmap = cm.Greys
+):
+    percentages = (np.int16(dat/dat.sum(0)*1000))/10.
+    y_pos = np.arange(len(xticks))
+    N = dat.shape[0]
+
+
+    patch_handles = []
+    left = np.zeros(len(xticks)) # left alignment of data starts at zero
+    for i, d in enumerate(dat):
+        patch_handles.append(ax.barh(y_pos, d, color=cmap(i/float(N-1)), align='center', left=left))
+        left += d
+
+    # go through all of the bar segments and annotate
+    for j in xrange(len(patch_handles)):
+        for i, patch in enumerate(patch_handles[j].get_children()):
+            bl = patch.get_xy()
+            x = 0.5*patch.get_width() + bl[0]
+            y = 0.5*patch.get_height() + bl[1]
+            if j<N/2:c='k'
+            else:c='w'
+            ax.text(x,y, percentages[j,i], ha='center',va='center',color=c,fontsize=15)
+
+    ax.set_yticks(y_pos)
+    ax.set_yticklabels(xticks)
     return ax
